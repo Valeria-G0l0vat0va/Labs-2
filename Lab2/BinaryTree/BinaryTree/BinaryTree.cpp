@@ -68,7 +68,7 @@ BinaryTree::Node* BinaryTree::root() const
 
 void BinaryTree::clear()
 {
-	if (!root) {
+	if (m_root) {
 		clear(m_root);
 		m_root = nullptr;
 	}
@@ -154,6 +154,11 @@ BinaryTree::Node* BinaryTree::addNode(Node* root, int key)
 		root->setRightChild(addNode(root->getRightChild(), key));
 	}
 	return root;
+}
+
+void BinaryTree::addKey(int key)
+{
+	m_root = addNode(m_root, key);
 }
 
 bool BinaryTree::removeNode(Node* root, Node* node)

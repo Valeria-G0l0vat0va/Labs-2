@@ -34,6 +34,7 @@ public:
 	int findMinimum(Node* root);
 	int findMaximum(Node* root);
 	Node* addNode(Node* root, int key);
+	void addKey(int key);
 	bool removeNode(Node* root, Node* node);
 	bool removeNodeKey(int key);
 	Node* nlrSearch(Node* root, int key)const;

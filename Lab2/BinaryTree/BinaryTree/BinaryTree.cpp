@@ -51,7 +51,7 @@ BinaryTree::Node* BinaryTree::CopyTree(Node* root)
 	return newNode;
 }
 
-BinaryTree::BinaryTree(BinaryTree&& other) 
+BinaryTree::BinaryTree(BinaryTree&& other) noexcept
 	:m_root(other.m_root)
 {
 	other.m_root = nullptr;
@@ -163,61 +163,50 @@ void BinaryTree::addKey(int key)
 
 bool BinaryTree::removeNode(Node* root, Node* node)
 {
-	Node* nodeParent = findParent(root, node);
-	Node* replacementNode = nullptr;
 	if (!node)
 		return false;
+
+	Node* nodeParent = findParent(root, node);
+	Node* replacementNode = nullptr;
+
 	if (!node->getLeftChild() && !node->getRightChild()) {
 		replacementNode = nullptr;
-		if (nodeParent) {
-			if (nodeParent->getLeftChild() == node)
-				nodeParent->setLeftChild(replacementNode);
-			else
-				nodeParent->setRightChild(replacementNode);
-		}
-		else
-			root = nullptr;
-		delete node;
 	}
 	else if (!node->getLeftChild() || !node->getRightChild())
 	{
 		if (node->getLeftChild()) {
-			replacementNode->getLeftChild();
-		}
-		nodeParent->setLeftChild(nullptr);
-		delete node;
-		nodeParent->setLeftChild(replacementNode);
-		if (node->getRightChild()) {
-			replacementNode->getRightChild();
-		}
-		nodeParent->setRightChild(nullptr);
-		delete node;
-		nodeParent->setRightChild(replacementNode);
-	}
-	else{
-		replacementNode = findSheet(node->getRightChild());
-		Node* replacementParent = findParent(root, replacementNode);
-		if (replacementParent != node)
-		{
-			replacementParent->setLeftChild(replacementNode->getRightChild());
-			replacementNode->setLeftChild(node->getRightChild());
-		}
-		replacementNode->setLeftChild(node->getLeftChild());
-		if (nodeParent)
-		{
-			if (nodeParent->getLeftChild() == node)
-				nodeParent->setLeftChild(replacementNode);
-			else
-				nodeParent->setRightChild(replacementNode);
+			replacementNode= node->getLeftChild();
 		}
 		else
-			root = replacementNode;
-		
-		delete node;
+			replacementNode = node->getRightChild();
 	}
+	else{
+		replacementNode = findLeaf(node->getRightChild());
+		Node* replacementParent = findParent(root, replacementNode);
+		
+		if (replacementParent) {
+			if (replacementParent->getLeftChild() == replacementNode)
+				replacementParent->setLeftChild(nullptr);
+			else
+				replacementParent->setRightChild(nullptr);	
+		}
+		replacementNode->setLeftChild(node->getLeftChild());
+		replacementNode->setRightChild(node->getRightChild());
+	}
+
+	if (nodeParent) {
+		if (nodeParent->getLeftChild() == node)
+			nodeParent->setLeftChild(replacementNode);
+		else
+			nodeParent->setRightChild(replacementNode);
+	}
+	else
+		m_root = replacementNode;
+	delete node;
+	return true;
 }
 
-BinaryTree::Node* BinaryTree::findSheet(Node* node) const {
+BinaryTree::Node* BinaryTree::findLeaf(Node* node) const {
 	if (!node)
 		return nullptr;
 	while (node->getLeftChild() || node->getRightChild())
@@ -232,7 +221,7 @@ BinaryTree::Node* BinaryTree::findSheet(Node* node) const {
 
 BinaryTree::Node* BinaryTree::findParent(Node* root, Node* node) const
 {
-	if (!root)
+	if (!root || !node)
 		return nullptr;
 	if (root->getLeftChild() == node || root->getRightChild() == node)
 		return root;

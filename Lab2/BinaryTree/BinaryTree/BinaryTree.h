@@ -24,7 +24,7 @@ public:
 	};
 	BinaryTree() = default;
 	BinaryTree(const BinaryTree& other);
-	BinaryTree(BinaryTree&& other);
+	BinaryTree(BinaryTree&& other) noexcept;
 	~BinaryTree();
 	Node* root() const;
 	void clear();
@@ -40,11 +40,11 @@ public:
 	Node* nlrSearch(Node* root, int key)const;
 	std::vector<int> ascendingKey() const;
 	BinaryTree& operator=(const BinaryTree& other);
-	void printHorizontal(Node* root, int marginLeft, int levelSpacing) const;
+	void printHorizontal(Node* root, int marginLeft = 0, int levelSpacing = 5) const;
 private:
 	Node* CopyTree(Node* root);
 	void clear(Node* node);
-	Node* findSheet(Node* node) const;
+	Node* findLeaf(Node* node) const;
 	Node* findParent(Node* root, Node* node) const;
 	void getKeys(Node* root, std::vector<int>& keys) const;
 	Node* m_root = nullptr;

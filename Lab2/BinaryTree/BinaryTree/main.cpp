@@ -1,8 +1,13 @@
 #include <iostream>
-#include "BinaryTree.h"
+#include "BinaryTreeTester.h"
 
 int main()
 {
+    BinaryTreeTester tester(true);
+
+    tester.test(15);
+    return 0;
+
     BinaryTree tree;
 
     tree.addKey(10);
@@ -22,7 +27,7 @@ int main()
     std::cout <<"Maximum " << tree.findMinimum(tree.root()) << std::endl;
     std::cout << "Minimum " << tree.findMaximum(tree.root()) << std::endl;
  
-    if (tree.removeNodeKey(12))
+    if (tree.removeNodeKey(5))
         std::cout << "Node removed\n";
     else
         std::cout << "Node not found\n";

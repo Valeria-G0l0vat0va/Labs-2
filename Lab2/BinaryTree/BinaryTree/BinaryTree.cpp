@@ -221,7 +221,7 @@ BinaryTree::Node* BinaryTree::findLeaf(Node* node) const {
 
 BinaryTree::Node* BinaryTree::findParent(Node* root, Node* node) const
 {
-	if (!root || !node)
+	if (!root)
 		return nullptr;
 	if (root->getLeftChild() == node || root->getRightChild() == node)
 		return root;

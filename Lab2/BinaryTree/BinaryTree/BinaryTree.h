@@ -24,7 +24,6 @@ public:
 	};
 	BinaryTree() = default;
 	BinaryTree(const BinaryTree& other);
-	BinaryTree(BinaryTree&& other) noexcept;
 	~BinaryTree();
 	Node* root() const;
 	void clear();

@@ -51,12 +51,6 @@ BinaryTree::Node* BinaryTree::CopyTree(Node* root)
 	return newNode;
 }
 
-BinaryTree::BinaryTree(BinaryTree&& other) noexcept
-	:m_root(other.m_root)
-{
-	other.m_root = nullptr;
-}
-
 BinaryTree::~BinaryTree()
 {
 	clear();
@@ -264,9 +258,9 @@ std::vector<int> BinaryTree::ascendingKey() const
 void BinaryTree::getKeys(Node* root, std::vector<int>&keys) const {
 	if (!root)
 		return;
-		getKeys(root->getLeftChild(), keys);
-		getKeys(root->getRightChild(), keys);
-		keys.push_back(root->key());
+	getKeys(root->getLeftChild(), keys);
+	getKeys(root->getRightChild(), keys);
+	keys.push_back(root->key());
 }
 
 void BinaryTree::printHorizontal(Node* root, int marginLeft, int levelSpacing) const

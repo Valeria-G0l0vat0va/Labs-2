@@ -10,11 +10,10 @@ BinaryTreeSearch::BinaryTreeSearch(const BinaryTreeSearch& other)
 
 int BinaryTreeSearch::findMinimum(Node* root)
 {
-	if (!root)
+	Node* nimNode = findMin(root);
+	if (minNode)
 		return INT_MAX;
-	while (root->getLeftChild())
-		root = root->getLeftChild()	;
-	return root->key();
+	return minNode->key();
 }
 
 int BinaryTreeSearch::findMaximum(Node* root)
@@ -22,7 +21,7 @@ int BinaryTreeSearch::findMaximum(Node* root)
 	if (!root)
 		return INT_MIN;
 	while (root->getRightChild())
-		root - root->getRightChild();
+		root = root->getRightChild();
 	return root->key();
 }
 
